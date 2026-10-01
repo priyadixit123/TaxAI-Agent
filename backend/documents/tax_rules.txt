@@ -1,0 +1,19 @@
+Tax Rules 2026
+
+Rule 1:
+Annual income up to 400000 is tax free.
+
+Rule 2:
+Annual income from 400001 to 800000 is taxed at 5%.
+
+Rule 3:
+Annual income from 800001 to 1200000 is taxed at 10%.
+
+Rule 4:
+Annual income from 1200001 to 1600000 is taxed at 15%.
+
+Rule 5:
+Annual income from 1600001 to 2000000 is taxed at 20%.
+
+Rule 6:
+Annual income above 2000000 is taxed at 30%.

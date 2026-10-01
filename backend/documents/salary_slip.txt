@@ -1,0 +1,8 @@
+Employee Name: Rahul Sharma
+Month: April 2026
+Basic Salary: 60000
+HRA: 20000
+Other Allowance: 10000
+Gross Salary: 90000
+TDS: 5000
+Net Salary: 85000
