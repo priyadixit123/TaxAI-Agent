@@ -4,7 +4,6 @@ An AI-powered tax document processing system built with **Python, FastAPI, React
 
 TaxAI Agent is designed to automate the initial processing of tax-related documents, extract structured information, validate the extracted data, apply tax rules, and route cases for human/CA review.
 
-> ⚠️ **Disclaimer:** This is a learning and portfolio project. The simplified tax rules used during development are not official Indian tax rules and should not be used for filing or professional tax advice.
 
 ---
 
