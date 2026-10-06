@@ -1,6 +1,8 @@
 from fastapi import FastAPI, UploadFile, File
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
+from document_reader import read_document
+from llm_extractor import extract_salary_data
 
 
 app = FastAPI()
@@ -44,74 +46,78 @@ def home():
 
 @app.post("/upload")
 async def upload_documents(
-
     pan: UploadFile | None = File(None),
-
     aadhaar: list[UploadFile] = File(default=[]),
-
     salary: list[UploadFile] = File(default=[]),
-
     bank: list[UploadFile] = File(default=[]),
-
     form16: list[UploadFile] = File(default=[]),
 ):
-
     uploaded_files = {}
 
-
     files = {
-
         "pan": [pan] if pan else [],
-
         "aadhaar": aadhaar,
-
         "salary": salary,
-
         "bank": bank,
-
         "form16": form16,
     }
-
-
-    # =====================================================
-    # SAVE FILES
-    # =====================================================
 
     for document_type, document_files in files.items():
 
         uploaded_files[document_type] = []
-
 
         for file in document_files:
 
             if file is None:
                 continue
 
-
             file_path = UPLOAD_DIR / file.filename
-
 
             content = await file.read()
 
-
             with open(file_path, "wb") as output_file:
-
                 output_file.write(content)
 
+            # =================================================
+            # OCR
+            # =================================================
+
+            extracted_text = ""
+
+            try:
+                extracted_text = read_document(str(file_path))
+
+            except Exception as error:
+                print("OCR error:", error)
+
+            # =================================================
+            # LLM EXTRACTION
+            # =================================================
+
+            structured_data = None
+
+            if extracted_text:
+
+                try:
+                    structured_data = extract_salary_data(
+                        extracted_text
+                    )
+
+                except Exception as error:
+                    print("LLM extraction error:", error)
+
+            # =================================================
+            # RESPONSE
+            # =================================================
 
             uploaded_files[document_type].append({
-
                 "filename": file.filename,
-
                 "path": str(file_path),
-
+                "text": extracted_text,
+                "structured_data": structured_data,
             })
 
-
     return {
-
-        "message": "Documents uploaded successfully",
-
+        "message": "Documents uploaded and processed successfully",
         "files": uploaded_files,
-
     }

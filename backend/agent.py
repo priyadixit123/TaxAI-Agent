@@ -22,6 +22,7 @@ llm_client = OpenAI(
 class TaxState(TypedDict):
     documents: list
     document_types: dict
+    extracted_text: dict
     extracted_data: dict
     validation_result: str
     missing_fields: list
@@ -878,4 +879,5 @@ test_response = parse_client_response_with_llm(
 )
 
 print("TEST RESULT:", test_response)
+
 
